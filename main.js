@@ -8,7 +8,7 @@ const desktopMenu = $('.desktop-menu');
 const menuBurgerIcon = $('.menu');
 const mobileMenu = $('.mobile-menu');
 const menuCartIcon = $('.navbar-shopping-cart');
-const aside = $('.product-detail');
+const shoppingCartContainer = $('#shopping-cart-container');
 const cardContainer = $('.cards-container');
 
 //Sin abreviar, quedaría como sigue:
@@ -31,11 +31,11 @@ un elemento desplegado al mismo tiempo.
 function toggleDesktopMenu() {
     //Crea una constante que le asigna True o False. Pregunta si el elemento aside (carro de compras) está 
     //activo o no (si contiene la clase inactive). 
-    const isAsideClosed = aside.classList.contains('inactive');
+    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
     //Si el carro está activado, se le agrega la clase inactive (se cierra)
     if(!isAsideClosed) {
-        aside.classList.add('inactive');
+        shoppingCartContainer.classList.add('inactive');
     }
 
     //Finalmente, se realiza el toggle. Esto es, agregar o quitar la clase inactive.
@@ -43,10 +43,10 @@ function toggleDesktopMenu() {
 }
 
 function toggleMobileMenu() {
-    const isAsideClosed = aside.classList.contains('inactive');
+    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
     if(!isAsideClosed) {
-        aside.classList.add('inactive');
+        shoppingCartContainer.classList.add('inactive');
     }
     
     mobileMenu.classList.toggle('inactive');
@@ -59,7 +59,7 @@ function toggleCartAside() {
         mobileMenu.classList.add('inactive');
     }
 
-    aside.classList.toggle('inactive');
+    shoppingCartContainer.classList.toggle('inactive');
 }
 
 // Se crea un array vacío y se le van agregando productos (por ahora, a mano).
