@@ -9,7 +9,9 @@ const menuBurgerIcon = $('.menu');
 const mobileMenu = $('.mobile-menu');
 const menuCartIcon = $('.navbar-shopping-cart');
 const shoppingCartContainer = $('#shopping-cart-container');
+const productDetailContainer = $('#product-detail');
 const cardContainer = $('.cards-container');
+const productDetailCloseIcon = $('.product-detail-close');
 
 //Sin abreviar, quedaría como sigue:
 //const menuEmail = document.querySelector('.navbar-email');
@@ -20,6 +22,7 @@ const cardContainer = $('.cards-container');
 menuEmail.addEventListener('click',toggleDesktopMenu);
 menuBurgerIcon.addEventListener('click',toggleMobileMenu);
 menuCartIcon.addEventListener('click',toggleCartAside);
+productDetailCloseIcon.addEventListener('click',closeProductDetailAside);
 
 /*
 Funciones que se encargan de mostrar y ocultar un elemento cada vez que se haga click en otro. funciona agregando
@@ -37,29 +40,78 @@ function toggleDesktopMenu() {
     if(!isAsideClosed) {
         shoppingCartContainer.classList.add('inactive');
     }
+    
+    //Si el product detail está abierto, se cierra.
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
+    if(!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    }
 
     //Finalmente, se realiza el toggle. Esto es, agregar o quitar la clase inactive.
     desktopMenu.classList.toggle('inactive');
 }
 
+//Se abre/cierra el mobile menu. 
 function toggleMobileMenu() {
+    //Si el carrito está abierto, se cierra.
     const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
     if(!isAsideClosed) {
         shoppingCartContainer.classList.add('inactive');
     }
-    
+
+    //Si el product detail está abierto, se cierra.
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
+    if(!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    } 
+
+    //Abre/cierra el mobile menu.
     mobileMenu.classList.toggle('inactive');
 }
 
+//Se abre el carrito.
 function toggleCartAside() {
+    //Si el mobile menu está abierto, se cierra.
     const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
 
     if(!isMobileMenuClosed) {
         mobileMenu.classList.add('inactive');
     }
 
+    //Si el product detail está abierto, se cierra.
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
+    if(!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    }
+
     shoppingCartContainer.classList.toggle('inactive');
+}
+
+//Función que abrirá el product detail cuando se haga click en algún elemento de la product list.
+function openProductDetailAside() {
+    //Si el carrito está abierto, se debe cerrar.
+    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
+
+    if(!isAsideClosed) {
+        shoppingCartContainer.classList.add('inactive');
+    }
+
+    //Si el desktop menu está abierto, se cierra.
+    const isDesktopMenuClosed = desktopMenu.classList.contains('inactive');
+
+    if(!isDesktopMenuClosed) {
+        desktopMenu.classList.add('inactive');
+    }
+
+    productDetailContainer.classList.remove('inactive');
+}
+
+function closeProductDetailAside() {
+    productDetailContainer.classList.add('inactive');
 }
 
 // Se crea un array vacío y se le van agregando productos (por ahora, a mano).
@@ -144,6 +196,9 @@ function renderProducts(arr) {
         //creamos una img y le agregamos la src que tiene guardado el producto (product.image)
         const productImage = document.createElement('img');
         productImage.setAttribute('src',product.image);
+        //creamos un addeventlistener para escuchar cuando demos click en una immagen. Se manda a llamar 
+        //a la función openProductDetailAside.
+        productImage.addEventListener('click',openProductDetailAside);
     
         //Creamos un div y la agregamos la clase product-info.
         const productInfo = document.createElement('div');
@@ -178,6 +233,6 @@ function renderProducts(arr) {
     }
 }
 
-//Mandamos a llamar a la función
+//Mandamos a llamar a la función productList para agregar la lista de productos en el HTML.
 renderProducts(productList);
 
